@@ -72,9 +72,9 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         } = userMessage;
         this.escalation += this.pacing;
         return {
-            stageDirections: `<!Escalation${Math.floor(this.escalation / 5) * 5}>`,
+            stageDirections: null,
             messageState: this.writeMessageState(),
-            modifiedMessage: null, //`${content}<!Escalation${Math.floor(this.escalation / 5) * 5}>`,
+            modifiedMessage: `<!escalation${Math.floor(this.escalation / 5) * 5}>${content}`,
             systemMessage: null,
             error: null,
             chatState: null,
