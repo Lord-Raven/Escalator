@@ -72,10 +72,10 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         } = userMessage;
         this.escalation += this.pacing;
         return {
-            stageDirections: `<!escalation${Math.floor(this.escalation / 10) * 10}>`,
+            stageDirections: null, //`<!escalation${Math.floor(this.escalation / 10) * 10}>`, // In an ideal world, this would trigger lorebooks, and then we would only have one escalation tag per prompt
             messageState: this.writeMessageState(),
-            modifiedMessage: null, // `<!escalation${Math.floor(this.escalation / 10) * 10}>${content}`,
-            systemMessage: null,
+            modifiedMessage: null, //`<!escalation${Math.floor(this.escalation / 10) * 10}>${content}`,
+            systemMessage: `<!escalation${Math.floor(this.escalation / 10) * 10}>`,
             error: null,
             chatState: null,
         };
