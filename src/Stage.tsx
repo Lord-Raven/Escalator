@@ -15,14 +15,15 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     readonly defaultPacing: string = 'Deliberate';
 
     readonly pacingMap: {[key: string]: number} = {
-        "Glacial": 1, 
-        "Plodding": 3,
-        "Deliberate": 5,
-        "Brisk": 7,
-        "Harrowing": 9
+        "Glacial": 0.1, 
+        "Plodding": 0.3,
+        "Deliberate": 0.5,
+        "Brisk": 0.7,
+        "Rapid": 1
     }
 
     escalation: number = 0;
+    maxEscalation: number = 100;
     pacing: number;
 
     constructor(data: InitialData<InitStateType, ChatStateType, MessageStateType, ConfigType>) {
@@ -38,6 +39,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         } = data;
 
         this.pacing = (config ? this.pacingMap[config.pacing] : null) ?? this.pacingMap[this.defaultPacing];
+        this.maxEscalation = (config ? config.maxEscalation : this.maxEscalation);
 
         this.readMessageState(messageState);
     }
@@ -70,12 +72,12 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         const {
             content
         } = userMessage;
-        this.escalation += this.pacing;
+        this.escalation = Math.min(this.maxEscalation, this.escalation + this.pacing);
         return {
             // In an ideal world, stage directions would trigger lorebooks, and then we would only ever have the most recent escalation tag per prompt.
-            stageDirections: null, //`<!escalation${Math.floor(this.escalation / 10) * 10}>`, 
+            stageDirections: null, //`<!Escalation${Math.floor(this.escalation)}>`, 
             messageState: this.writeMessageState(),
-            modifiedMessage: `<!escalation${Math.floor(this.escalation / 10) * 10}>${content}`,
+            modifiedMessage: `<!Escalation${Math.floor(this.escalation)}>${content}`,
             systemMessage: null,
             error: null,
             chatState: null,
