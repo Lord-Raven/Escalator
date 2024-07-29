@@ -87,7 +87,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             messageState: this.writeMessageState(),
             modifiedMessage: null,
             error: null,
-            systemMessage: `<!escalation${Math.floor(this.escalation / 10) * 10}>`,
+            systemMessage: `escalation${Math.floor(this.escalation / 10) * 10}`,
             chatState: null
         };
     }
