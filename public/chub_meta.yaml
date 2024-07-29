@@ -9,26 +9,26 @@ tagline: "Introduce escalating scenarios through lorebook triggers."
 
 creator_notes: "
 **What It Does**<br>
-This stage introduces escalating keywords that could be incorporated into lorebook triggers to create scenarios that evolve over time. 
-Each time the player responds, an escalation value is increased (by a configurable 'pacing' value), and a hidden tag is prepended to the user's input, containing the current escalation level (e.g., \"Escalation1\").<br>
+This stage introduces escalating keywords that could be incorporated into a lorebook entries to create scenarios or definitions that evolve over time. 
+With every player input, an escalation value is increased (by a configurable 'pacing' value), and a hidden tag is prepended to the user's input, containing the current escalation level (e.g., \"Escalation1\").<br>
 <br>
-By adding lorebook entries keyed off of a level (or a number of levels), different entries can be included based on how long the chat has been going on, allowing creators to deliberately craft evolving scenarios that maybe have a shot at staying on track.<br>
+By adding these levels as lorebook keywords, different entries can be included in the prompt based on how long the chat has been going, allowing creators to deliberately craft developing scenarios that maybe have a shot at staying on track.<br>
 <br>
-For reference, at the default pace, each user input equates to half of an escalation level. At the maximum pace, every input increases this level. All tags are in whole levels, so at the default pace, if you want a lorebook entry to trigger for the first 9 responses, you would add the keywords \"Escalation0,Escalation1,Escalation2,Escalation3,Escalation4\"
+For reference, at the default pace, each user input equates to half of an escalation level. All tags are in whole levels, so at the default pace, if you want a lorebook entry to trigger for the first 9 responses, you would add the keywords \"Escalation0,Escalation1,Escalation2,Escalation3,Escalation4\"
 <br>
-If this description sucks, just check out the character book on [Elise Moreau](https://venus.chub.ai/characters/Ravenok/elise-moreau-e05bd9d34a01) for an example; she has the stage attached with the default pacing and a maximum escalation level that matches the highest level on her lorebook entries.<br>
+Because this explanation sucks, please check out the character book on [Elise Moreau](https://venus.chub.ai/characters/Ravenok/elise-moreau-e05bd9d34a01); she has this stage attached with the default pacing and a maximum escalation level that matches the highest level on her lorebook entries.<br>
 <br>
 **Pitfalls**<br>
-The approach is unfortunately based on modifying the user's input before submission to the LLM; I had hoped to leverage the stage directions feature, because that element is sent to the LLM without being persisted to the database (or future prompts), 
+The stage's current approach is unfortunately based on modifying the user's input before submission to the LLM; I had hoped to leverage the stage directions feature, because that element is sent to the LLM without being persisted to the database (or future prompts), 
 but it seems that stage directions are not interrogated for lorebook triggers at this time.<br>
 <br>
 The stage directions would be more transparent, and would allow only the most recent escalation tag to be included in the prompt. Instead, we have a big downside to deal with: 
-modifying the user's input means that there are multiple past escalation tags in each prompt, so our lorebook entries have to reduce lorebook scanning depth or exclude a few escalation tags beyond the lorebook entry's own level--or risk triggering multiple conflicting lorebook entries.<br>
+modifying the user's input means that there are multiple past escalation tags in each prompt, so our lorebook entries have to reduce lorebook scanning depth or exclude a few escalation tags beyond the lorebook entry's own level. Otherwise, we risk triggering multiple conflicting lorebook entries.<br>
 <br>
 Not only does this make for more complicated lorebook setup, it hamstrings the ability to have escalating entries for specific elements of your setting; if the king is slowly dying and his entry says he's on his deathbed for escalation10-15, 
-a separate king entry for escalation16-on where the king is actually dead could overlap with deathbed entries, because we can't cleanly distinguish which escalation level applies and we have to use AND to handle \"king\" and the escalation keyword.<br>
+a separate king entry for escalation16-on where the king is actually dead could overlap with deathbed entries, because the past keywords may still be within the scanned depth, and we need the selective AND to handle \"king\" and the escalation keyword.<br>
 <br>
-I have tried to solve for this issue in other ways, but I think my hands are tied at the moment. If anyone can think up another approach, though, let me know.<br>
+I have tried to solve for this issue in other ways, but I think my hands are tied at the moment. If anyone can think up another approach to keep only a single tag in-prompt at a time, though, let me know.<br>
 <br>
 **Configuration**<br>
 You can tweak a couple of the stage's behaviors:<br>
