@@ -18,6 +18,8 @@ For reference, at the default pace, each user input equates to half of an escala
 <br>
 Because this explanation sucks, please check out the character book on [Elise Moreau](https://venus.chub.ai/characters/Ravenok/elise-moreau-e05bd9d34a01); she has this stage attached with the default pacing and a maximum escalation level that matches the highest level on her lorebook entries.<br>
 <br>
+Ultimately, this is very similar to my [Alien Infestation Stage](https://venus.chub.ai/extensions/Ravenok/alien-infestation-04c7448f1d14), but trying to expose the concept of scenario escalation in a generalized way that others can hook into through lorebooks.<br>
+<br>
 **Pitfalls**<br>
 The stage's current approach is unfortunately based on modifying the user's input before submission to the LLM; I had hoped to leverage the stage directions feature, because that element is sent to the LLM without being persisted to the database (or future prompts), 
 but it seems that stage directions are not interrogated for lorebook triggers at this time.<br>
