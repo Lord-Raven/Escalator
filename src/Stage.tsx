@@ -37,12 +37,6 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             chatState
         } = data;
 
-        console.log(characters);
-        console.log(users);
-        console.log(config);
-        console.log(environment);
-        console.log(initState);
-        console.log(chatState);
         this.pacing = (config ? this.pacingMap[config.pacing] : null) ?? this.pacingMap[this.defaultPacing];
 
         this.readMessageState(messageState);
@@ -78,9 +72,9 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         } = userMessage;
         this.escalation += this.pacing;
         return {
-            stageDirections: `<!escalation${Math.floor(this.escalation / 5) * 5}>`,
+            stageDirections: `<!escalation${Math.floor(this.escalation / 10) * 10}>`,
             messageState: this.writeMessageState(),
-            modifiedMessage: null, // `<!escalation${Math.floor(this.escalation / 5) * 5}>${content}`,
+            modifiedMessage: null, // `<!escalation${Math.floor(this.escalation / 10) * 10}>${content}`,
             systemMessage: null,
             error: null,
             chatState: null,
