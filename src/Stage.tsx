@@ -19,7 +19,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         "Plodding": 3,
         "Deliberate": 5,
         "Brisk": 7,
-        "Rapid": 9
+        "Harrowing": 9
     }
 
     escalation: number = 0;
@@ -28,8 +28,13 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     constructor(data: InitialData<InitStateType, ChatStateType, MessageStateType, ConfigType>) {
         super(data);
         const {
+            characters,
+            users,
             config,
-            messageState
+            messageState,
+            environment,
+            initState,
+            chatState
         } = data;
 
         this.pacing = (config ? this.pacingMap[config.pacing] : null) ?? this.pacingMap[this.defaultPacing];
@@ -62,11 +67,14 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     }
 
     async beforePrompt(userMessage: Message): Promise<Partial<StageResponse<ChatStateType, MessageStateType>>> {
+        const {
+            content
+        } = userMessage;
         this.escalation += this.pacing;
         return {
             stageDirections: `[Escalation${Math.floor(this.escalation / 5) * 5}]`,
             messageState: this.writeMessageState(),
-            modifiedMessage: null,
+            modifiedMessage: `${content}<!Escalation${Math.floor(this.escalation / 5) * 5}>`,
             systemMessage: null,
             error: null,
             chatState: null,
