@@ -74,7 +74,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         return {
             stageDirections: null,
             messageState: this.writeMessageState(),
-            modifiedMessage: `<!escalation${Math.floor(this.escalation / 5) * 5}>${content}`,
+            modifiedMessage: null, // `<!escalation${Math.floor(this.escalation / 5) * 5}>${content}`,
             systemMessage: null,
             error: null,
             chatState: null,
@@ -83,7 +83,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
 
     async afterResponse(botMessage: Message): Promise<Partial<StageResponse<ChatStateType, MessageStateType>>> {
         return {
-            stageDirections: null,
+            stageDirections: `<!escalation${Math.floor(this.escalation / 5) * 5}>`,
             messageState: this.writeMessageState(),
             modifiedMessage: null,
             error: null,
