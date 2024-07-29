@@ -39,7 +39,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         } = data;
 
         this.pacing = (config ? this.pacingMap[config.pacing] : null) ?? this.pacingMap[this.defaultPacing];
-        this.maxEscalation = (config ? config.maxEscalation : this.maxEscalation);
+        this.maxEscalation = (config ? config.maxEscalation : null) ?? this.maxEscalation;
 
         this.readMessageState(messageState);
     }
@@ -73,6 +73,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             content
         } = userMessage;
         this.escalation = Math.min(this.maxEscalation, this.escalation + this.pacing);
+        console.log(`${this.escalation};${this.pacing};${this.maxEscalation}`)
         return {
             // In an ideal world, stage directions would trigger lorebooks, and then we would only ever have the most recent escalation tag per prompt.
             stageDirections: null, //`<!Escalation${Math.floor(this.escalation)}>`, 
