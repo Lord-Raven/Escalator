@@ -26,9 +26,9 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     maxEscalation: number = 100;
     pacing: number;
     lorebook: any;
-    characterBooks: any[];
-    character: Character;
-    user: User;
+    characterBook: any;
+    character: any;
+    characterBookPath: string;
 
     constructor(data: InitialData<InitStateType, ChatStateType, MessageStateType, ConfigType>) {
         super(data);
@@ -44,23 +44,28 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
 
         this.pacing = (config ? this.pacingMap[config.pacing] : null) ?? this.pacingMap[this.defaultPacing];
         this.maxEscalation = (config ? config.maxEscalation : null) ?? this.maxEscalation;
-        this.characterBooks = [];
+        this.characterBookPath = (config ? config.characterBook : null) ?? '';
 
-        console.log(users);
-        console.log(environment);
-        this.character = characters['1'];
-        this.user = users['2'];
-
-        for (const [key, character] of Object.entries(characters)) {
-            console.log(key);
-            console.log(character);
-            this.character = character;
-        }
 
         this.readMessageState(messageState);
     }
 
     async load(): Promise<Partial<LoadResponse<InitStateType, ChatStateType, MessageStateType>>> {
+
+        
+        if (this.characterBookPath.length > 0) {
+            const response = await fetch(`https://api.chub.ai/api/characters/${this.characterBookPath}?full=true`, {
+                method: 'GET'
+            });
+
+            if (!response.ok) {
+                console.error(`Failed to load character book: ${response.status}`);
+            } else {
+                const character = await response.json();
+                console.log(character);
+                this.characterBook = character.character_book;
+            }
+        }
 
         return {
             success: true,
@@ -89,8 +94,6 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             content
         } = userMessage;
         this.escalation = Math.min(this.maxEscalation, this.escalation + this.pacing);
-        this.character.personality = `Escalation${Math.floor(this.escalation)}`;
-        this.user.chatProfile = `Escalation${Math.floor(this.escalation)}`;
         return {
             // In an ideal world, stage directions would trigger lorebooks, and then we would only ever have the most recent escalation tag per prompt, and we could get rid of all of the bespoke book handling in here.
             stageDirections: null, //`<Escalation${Math.floor(this.escalation)}>`, 

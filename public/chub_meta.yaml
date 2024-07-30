@@ -72,6 +72,9 @@ config_schema:
       type: string
       default: "Deliberate"
       enum: ["Glacial", "Plodding", "Deliberate", "Brisk", "Rapid"]
+    characterBook:
+      title: Character Book
+      description: A character to borrow the lorebook for.
     maxEscalation:
       title: Maximum Escalation
       description: The ultimate escalation value for the scenario.
