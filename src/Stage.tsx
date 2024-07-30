@@ -54,16 +54,27 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
 
         
         if (this.characterBookPath.length > 0) {
-            const response = await fetch(`https://api.chub.ai/api/characters/${this.characterBookPath}?full=true`, {
-                method: 'GET'
+            const response = await fetch(`https://api.chub.ai/api/characters/download`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        format: 'card_spec_v2',
+                        fullPath: this.characterBookPath,
+                        version: 'main'
+                    }
+                )
             });
 
             if (!response.ok) {
                 console.error(`Failed to load character book: ${response.status}`);
             } else {
-                const character = await response.json();
-                console.log(character);
-                this.characterBook = character.character_book;
+                console.log(response);
+                const blob = await response.blob;
+                console.log(blob);
+                //this.characterBook = character.character_book;
             }
         }
 
