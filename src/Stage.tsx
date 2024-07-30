@@ -53,8 +53,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     async load(): Promise<Partial<LoadResponse<InitStateType, ChatStateType, MessageStateType>>> {
 
         
-        if (this.characterBookPath.length > 0) {
-            const response = await fetch(`http://api.chub.ai/api/characters/download`, {
+        /*if (this.characterBookPath.length > 0) {
+            const response = await fetch(`https://api.chub.ai/api/characters/download`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 console.log(blob);
                 //this.characterBook = character.character_book;
             }
-        }
+        }*/
 
         return {
             success: true,
