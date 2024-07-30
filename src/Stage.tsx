@@ -32,13 +32,18 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         super(data);
         const {
             characters,
+            users,
             config,
             messageState,
+            environment
         } = data;
 
         this.pacing = (config ? this.pacingMap[config.pacing] : null) ?? this.pacingMap[this.defaultPacing];
         this.maxEscalation = (config ? config.maxEscalation : null) ?? this.maxEscalation;
         this.characterBooks = [];
+
+        console.log(users);
+        console.log(environment);
 
         for (const [key, character] of Object.entries(characters)) {
             console.log(key);
