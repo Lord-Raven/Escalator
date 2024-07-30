@@ -75,6 +75,8 @@ config_schema:
     characterBook:
       title: Character Book
       description: A character to borrow the lorebook for.
+      type: string
+      default: ''
     maxEscalation:
       title: Maximum Escalation
       description: The ultimate escalation value for the scenario.
