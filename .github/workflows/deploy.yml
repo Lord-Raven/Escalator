@@ -108,8 +108,6 @@ jobs:
 
       - name: Build
         run: yarn build
-        env:
-          CHUB_AUTH_TOKEN: ${{ secrets.CHUB_AUTH_TOKEN }}
 
       - name: Zip the build folder
         run: cd dist && zip -r ../build.zip * && cd ../
