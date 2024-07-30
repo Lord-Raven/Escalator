@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-import {StageBase, StageResponse, InitialData, Message} from "@chub-ai/stages-ts";
+import {StageBase, StageResponse, InitialData, Message, Character, User} from "@chub-ai/stages-ts";
 import {LoadResponse} from "@chub-ai/stages-ts/dist/types/load";
 
 type MessageStateType = any;
@@ -27,6 +27,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     pacing: number;
     lorebook: any;
     characterBooks: any[];
+    character: Character;
+    user: User;
 
     constructor(data: InitialData<InitStateType, ChatStateType, MessageStateType, ConfigType>) {
         super(data);
@@ -38,16 +40,21 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             environment
         } = data;
 
+        console.log(data);
+
         this.pacing = (config ? this.pacingMap[config.pacing] : null) ?? this.pacingMap[this.defaultPacing];
         this.maxEscalation = (config ? config.maxEscalation : null) ?? this.maxEscalation;
         this.characterBooks = [];
 
         console.log(users);
         console.log(environment);
+        this.character = characters['1'];
+        this.user = users['2'];
 
         for (const [key, character] of Object.entries(characters)) {
             console.log(key);
             console.log(character);
+            this.character = character;
         }
 
         this.readMessageState(messageState);
@@ -82,6 +89,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             content
         } = userMessage;
         this.escalation = Math.min(this.maxEscalation, this.escalation + this.pacing);
+        this.character.personality = `Escalation${Math.floor(this.escalation)}`;
+        this.user.chatProfile = 'Escalation${Math.floor(this.escalation)}`;
         return {
             // In an ideal world, stage directions would trigger lorebooks, and then we would only ever have the most recent escalation tag per prompt, and we could get rid of all of the bespoke book handling in here.
             stageDirections: null, //`<Escalation${Math.floor(this.escalation)}>`, 
