@@ -41,6 +41,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         this.characterBooks = [];
 
         for (const [key, character] of Object.entries(characters)) {
+            console.log(key);
             console.log(character);
         }
 
