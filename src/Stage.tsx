@@ -57,11 +57,9 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             const response = await fetch(`https://api.chub.ai/api/characters/download`, {
                 method: 'POST',
                 mode: 'no-cors',
+                credentials: 'omit',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': 'false',
-                    'Accept': '*/*'
                 },
                 body: JSON.stringify(
                     {
