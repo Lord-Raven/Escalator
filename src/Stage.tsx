@@ -58,6 +58,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
+                    'CH-API-KEY': process.env.CHUB_AUTH_TOKEN
                 },
                 body: JSON.stringify(
                     {
