@@ -60,7 +60,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': 'False'
+                    'Access-Control-Allow-Credentials': 'false',
+                    'Accept': '*/*'
                 },
                 body: JSON.stringify(
                     {
