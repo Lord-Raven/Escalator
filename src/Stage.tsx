@@ -58,6 +58,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'omit',
+                referrer: 'no-referrer',
                 headers: {
                     'Content-Type': 'application/json',
                 },
