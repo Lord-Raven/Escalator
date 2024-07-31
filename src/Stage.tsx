@@ -54,13 +54,14 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
 
         
         if (this.characterBookPath.length > 0) {
+            console.log(process.env);
             const response = await fetch(`https://api.chub.ai/api/characters/download`, {
                 method: 'POST',
-                mode: 'no-cors',
+                mode: 'cors',
                 credentials: 'omit',
-                referrerPolicy: 'no-referrer',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'CH-API-KEY': `${process.env.CHUB_AUTH_TOKEN}`
                 },
                 body: JSON.stringify(
                     {
